@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/Kirill-iceland/Discord-slash/issues"
   },
-  "homepage": "https://github.com/Kirill-iceland/Discord-slash#readme"
+  "homepage": "https://github.com/Kirill-iceland/Discord-slash#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3"
+  }
 }
