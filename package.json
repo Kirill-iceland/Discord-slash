@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Adding slash commands to Discord.js client",
   "main": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kirill-iceland/Discord-slash.git"
