@@ -1,9 +1,12 @@
 {
-  "name": "discord-slash",
+  "name": "@the_zolotuskiy/discord-slash",
   "version": "1.0.0",
   "description": "Adding slash commands to Discord.js client",
   "main": "index.js",
-  "repository": {"url": "https://github.com/Kirill-iceland/Discord-slash", "type": "github", "directory": "master"},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kirill-iceland/Discord-slash.git"
+  },
   "scripts": {
     "test": "node ."
   },
@@ -13,5 +16,9 @@
     "slash"
   ],
   "author": "Kirill.Iceland",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kirill-iceland/Discord-slash/issues"
+  },
+  "homepage": "https://github.com/Kirill-iceland/Discord-slash#readme"
 }
