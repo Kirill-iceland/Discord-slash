@@ -1,6 +1,6 @@
 {
   "name": "@the_zolotuskiy/discord-slash",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "Adding slash commands to Discord.js client",
   "main": "index.js",
   "types": "index.d.ts",

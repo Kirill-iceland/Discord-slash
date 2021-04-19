@@ -29,6 +29,8 @@ declare module '@the_zolotuskiy/discord-slash' {
         public setOptions(options: CommandArguments[]): this 
         public addOptions(options: CommandArguments[]): this 
         public addOption(option: CommandArguments): this 
+
+        public toJSON(): {name: string, description?: string, options: {}[]}
     }
 
 
