@@ -274,11 +274,14 @@ exports.post = async (client, command, callback = calback) => {
 exports.edit = async (client, command, callback = calback) => {
     return callback(await client.api.applications(client.user.id).commands.patch({data: command.toJSON()}))
 }
+exports.getById = async (client, command_id, callback = calback) => {
+    return callback(await client.api.applications(client.user.id).commands(command_id).get())
+}
 exports.get = async (client, callback = calback) => {
     return callback(await client.api.applications(client.user.id).commands.get())
 }
-exports.delete_ = async (client, id, callback = calback) => {
-    return callback(client.api.applications(client.user.id).commands(id).delete())
+exports.delete_ = async (client, command_id, callback = calback) => {
+    return callback(client.api.applications(client.user.id).commands(command_id).delete())
 }
 
 //Guild
@@ -288,9 +291,12 @@ exports.GuildPost = async (client, guild, command, callback = calback) => {
 exports.GuildEdit = async (client, guild, command, callback = calback) => {
     return callback(await client.api.applications(client.user.id).guilds(guild.id).commands.patch({data: command.toJSON()}))
 }
+exports.GuildGetById = async (client, guild, command_id, callback = calback) => {
+    return callback(await client.api.applications(client.user.id).guilds(guild.id).commands(command_id).get())
+}
 exports.GuildGet = async (client, guild, callback = calback) => {
     return callback(await client.api.applications(client.user.id).guilds(guild.id).commands.get())
 }
-exports.GuildDelete =  async (client, guild, id, callback = calback) => {
-    return callback(client.api.applications(client.user.id).guilds(guild.id).commands(id).delete())
+exports.GuildDelete =  async (client, guild, command_id, callback = calback) => {
+    return callback(client.api.applications(client.user.id).guilds(guild.id).commands(command_id).delete())
 }

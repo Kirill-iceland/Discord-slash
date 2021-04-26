@@ -95,11 +95,13 @@ declare module '@the_zolotuskiy/discord-slash' {
 
     export function post    (client: Discord.Client, command: Command, callback?: callback): any
     export function edit    (client: Discord.Client, command: Command, callback?: callback): any
+    export function getById (client: Discord.Client, command_id: string, callback?: callback): any
     export function get     (client: Discord.Client, callback?: callback): any
-    export function delete_ (client: Discord.Client, id: string, callback?: callback): any
+    export function delete_ (client: Discord.Client, command_id: string, callback?: callback): any
     
     export function GuildPost   (client: Discord.Client, Guild: Discord.Guild, command: Command, callback?: callback): any
     export function GuildEdit   (client: Discord.Client, Guild: Discord.Guild, command: Command, callback?: callback): any
+    export function GuildGetById(client: Discord.Client, Guild: Discord.Guild, command_id: string, callback?: callback): any
     export function GuildGet    (client: Discord.Client, Guild: Discord.Guild, callback?: callback): any
-    export function GuildDelete (client: Discord.Client, Guild: Discord.Guild, id: string, callback?: callback): any
+    export function GuildDelete (client: Discord.Client, Guild: Discord.Guild, command_id: string, callback?: callback): any
 }
