@@ -19,9 +19,9 @@ declare module '@the_zolotuskiy/discord-slash' {
     type CommandOptionsJSON = SubCommandJSON | SubCommandGroupJSON | CommandArgumentJSON
 
     type CommandJSON = {name: string, description?: string, options: CommandOptionsJSON[]}
-    type SubCommandGroupJSON = {name: string, type: 2, description?: string, options: (CommandArgument | SubCommand)[]}
-    type SubCommandJSON = {name: string, type: 1, description?: string, options: CommandArgument[]}
-    type CommandArgumentJSON = {name: string, type: 3 | 4 | 5 | 6 | 7 | 8, required: boolean, description?: string, choices: {name: string, value: string}[]}
+    type SubCommandGroupJSON = {name: string, type: 2, description?: string, options?: (CommandArgument | SubCommand)[]}
+    type SubCommandJSON = {name: string, type: 1, description?: string, options?: CommandArgument[]}
+    type CommandArgumentJSON = {name: string, type: 3 | 4 | 5 | 6 | 7 | 8, required: boolean, description?: string, choices?: {name: string, value: string}[]}
 
     export class Command{
         constructor(name: string, description?: string, options?: CommandOptions[])
@@ -38,6 +38,7 @@ declare module '@the_zolotuskiy/discord-slash' {
         public addOption(option: CommandArgument): this 
 
         public toJSON(): CommandJSON
+        public static parse(json: CommandJSON): Command
     }
 
 
@@ -51,6 +52,10 @@ declare module '@the_zolotuskiy/discord-slash' {
         public setName(name: string): this
         public setDescription(description: string): this
         public setType(type: number): CommandOptions
+
+        public static parse(json: SubCommandJSON): SubCommand 
+        public static parse(json: SubCommandGroupJSON): SubCommandGroup
+        public static parse(json: CommandArgumentJSON): CommandArgument
     }
 
     export class SubCommand extends CommandOption{
@@ -63,6 +68,7 @@ declare module '@the_zolotuskiy/discord-slash' {
         public addOption(option: CommandArgument): this 
 
         public toJSON(): SubCommandJSON
+        public static parse(json: SubCommandJSON): SubCommand 
     }
     export class SubCommandGroup extends CommandOption{
         constructor(name: string, description?: string, options?: (CommandArgument | SubCommand)[])
@@ -74,6 +80,7 @@ declare module '@the_zolotuskiy/discord-slash' {
         public addOption(option: CommandArgument | SubCommand): this 
         
         public toJSON(): SubCommandGroupJSON
+        public static parse(json: SubCommandGroupJSON): SubCommandGroup
     }
     export class CommandArgument extends CommandOption{
         constructor(name: string, description?: string, options?: CommandArgument[])
@@ -88,6 +95,7 @@ declare module '@the_zolotuskiy/discord-slash' {
         public addChoice(name: string, value: string): this 
         
         public toJSON(): CommandArgumentJSON
+        public static parse(json: CommandArgumentJSON): CommandArgument
     }
 
 

@@ -51,6 +51,15 @@ class Command{
         })
         return {name: this.name, description: this.description, options}
     }
+    static parse(json){
+        let options = [];
+        if(json.options){
+            json.options.forEach(option => {
+                options.push(CommandOption.parse(option))
+            })
+        }
+        return new Command(json.name, json.description, options)
+    }
 }
 exports.Command = Command
 
@@ -80,6 +89,19 @@ class CommandOption{
                 return new SubCommandGroup(this.name, this.type, this.description);
             default:
                 return new CommandArguments(this.name, this.type, this.description);
+        }
+    }
+
+    static parse(json){
+        switch(json.type){
+            case 1:
+                return SubCommand.parse(json);
+            
+            case 2:
+                return SubCommandGroup.parse(json);
+            
+            default:
+                return CommandArgument.parse(json);
         }
     }
 }
@@ -143,6 +165,15 @@ class SubCommand extends CommandOption{
         })
         return {name: this.name, type: this.type, description: this.description, options}
     }
+    static parse(json){
+        let options = [];
+        if(json.options){
+            json.options.forEach(option => {
+                options.push(CommandArgument.parse(option))
+            })
+        }
+        return new SubCommand(json.name, json.description, options)
+    }
 }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -187,6 +218,19 @@ class SubCommandGroup extends CommandOption{
             options.push(option.toJSON())
         })
         return {name: this.name, type: this.type, description: this.description, options};
+    }
+    static parse(json){
+        let options = [];
+        if(json.options){
+            json.options.forEach(option => {
+                if(option.type == 1){
+                    options.push(SubCommand.parse(option))
+                }else{
+                    options.push(CommandArgument.parse(option))
+                }
+            })
+        }
+        return new SubCommandGroup(json.name, json.description, options)
     }
 }
 exports.SubCommandGroup = SubCommandGroup;
@@ -249,6 +293,9 @@ class CommandArgument extends CommandOption{
         })
         return {name: this.name, type: this.type, required: this.required, description: this.description, choices};
     }
+    static parse(json){
+        return new CommandArgument(json.name, json.type, jso.required, json.description, json.choices)
+    }
 }
 exports.CommandArgument = CommandArgument;
 
@@ -275,10 +322,15 @@ exports.edit = async (client, command, callback = calback) => {
     return callback(await client.api.applications(client.user.id).commands.patch({data: command.toJSON()}))
 }
 exports.getById = async (client, command_id, callback = calback) => {
-    return callback(await client.api.applications(client.user.id).commands(command_id).get())
+    return callback(Command.parse(await client.api.applications(client.user.id).commands(command_id).get()))
 }
 exports.get = async (client, callback = calback) => {
-    return callback(await client.api.applications(client.user.id).commands.get())
+    let commands = [];
+    const commands_ = await client.api.applications(client.user.id).commands.get();
+    commands_.forEach(command => {
+        commansrs.push(Command.parse(command));
+    })
+    return callback(commands)
 }
 exports.delete_ = async (client, command_id, callback = calback) => {
     return callback(client.api.applications(client.user.id).commands(command_id).delete())
@@ -292,10 +344,15 @@ exports.GuildEdit = async (client, guild, command, callback = calback) => {
     return callback(await client.api.applications(client.user.id).guilds(guild.id).commands.patch({data: command.toJSON()}))
 }
 exports.GuildGetById = async (client, guild, command_id, callback = calback) => {
-    return callback(await client.api.applications(client.user.id).guilds(guild.id).commands(command_id).get())
+    return callback(Command.parse(await client.api.applications(client.user.id).guilds(guild.id).commands(command_id).get()))
 }
 exports.GuildGet = async (client, guild, callback = calback) => {
-    return callback(await client.api.applications(client.user.id).guilds(guild.id).commands.get())
+    let commands = [];
+    const commands_ = await client.api.applications(client.user.id).guilds(guild.id).commands.get();
+    commands_.forEach(command => {
+        commansrs.push(Command.parse(command));
+    })
+    return callback(commands)
 }
 exports.GuildDelete =  async (client, guild, command_id, callback = calback) => {
     return callback(client.api.applications(client.user.id).guilds(guild.id).commands(command_id).delete())
